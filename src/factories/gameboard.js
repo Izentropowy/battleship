@@ -32,8 +32,23 @@ class Gameboard {
 
   receiveAttack(coordinates) {
     this.coordinates[coordinates[0]][coordinates[1]] === null
-      ? (this.shots[coordinates[0]][coordinates[1]] = false)
-      : this.coordinates[coordinates[0]][coordinates[1]].hit();
+      ? (this.shots[coordinates[0]][coordinates[1]] = "miss")
+      : (this.coordinates[coordinates[0]][coordinates[1]].hit(),
+        (this.shots[coordinates[0]][coordinates[1]] = "hit"));
+  }
+
+  checkIfAllSunk() {
+    let checker = this.coordinates.map((row) => {
+      return row.map((column) => {
+        return column !== null ? true : false;
+      });
+    });
+    let checker2 = this.shots.map((row) => {
+      return row.map((column) => {
+        return column === "hit" ? true : false;
+      });
+    });
+    return JSON.stringify(checker) === JSON.stringify(checker2);
   }
 }
 

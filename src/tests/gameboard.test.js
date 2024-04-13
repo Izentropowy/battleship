@@ -42,8 +42,8 @@ test("board can receive a missed attack", () => {
   testGameboard.receiveAttack(testCoordinates);
   testGameboard.receiveAttack(testCoordinates2);
 
-  expect(testGameboard.shots[1][2]).toBe(false);
-  expect(testGameboard.shots[7][0]).toBe(false);
+  expect(testGameboard.shots[1][2]).toBe("miss");
+  expect(testGameboard.shots[7][0]).toBe("miss");
 });
 
 test("ship can be hit", () => {
@@ -55,4 +55,20 @@ test("ship can be hit", () => {
 
   expect(testGameboard.coordinates[1][2]).toBeInstanceOf(Object);
   expect(testShip.hits).toBe(1);
+});
+
+test("report if all sunk", () => {
+  let testCoordinates = [1, 2];
+  let testShip = new Ship(4);
+  testGameboard.placeShip(testShip, testCoordinates);
+
+  expect(testGameboard.checkIfAllSunk()).toBe(false);
+
+  testGameboard.receiveAttack([0, 0]);
+  testGameboard.receiveAttack([1, 2]);
+  testGameboard.receiveAttack([2, 2]);
+  testGameboard.receiveAttack([3, 2]);
+  testGameboard.receiveAttack([4, 2]);
+
+  expect(testGameboard.checkIfAllSunk()).toBe(true);
 });
