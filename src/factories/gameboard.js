@@ -1,12 +1,4 @@
 class Gameboard {
-  // coordinates
-  // null - empty field
-  //  object - ship
-
-  // shots
-  // false - miss
-  //  true - hit
-
   constructor() {
     this.coordinates = [];
     this.shots = [];
