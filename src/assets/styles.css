@@ -34,7 +34,7 @@ button {
 }
 
 button:hover {
-  opacity: 0.85;
+  opacity: 0.7;
 }
 
 button:active {
@@ -77,4 +77,11 @@ footer, header {
   background-color: white;
 }
 
+.player2 > .table-header {
+  display: flex;
+  justify-content: right;
+}
 
+.ship {
+  background-color: rgb(133, 132, 132);
+}
