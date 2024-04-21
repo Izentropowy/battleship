@@ -1,10 +1,21 @@
 import Ship from "../factories/ship";
 
 function validateFreeSpace(board, length, x, y) {
-  if (x + length > 9 || y + length > 9) return false;
+  if (x + length > 10 || y + length > 10) return false; // Check if ship exceeds board boundaries
+
   for (let i = 0; i < length; i++) {
-    if (board[x][y + i] !== null) return false;
+    for (let j = -1; j <= 1; j++) {
+      for (let k = -1; k <= 1; k++) {
+        const row = x + i + j;
+        const col = y + k;
+
+        if (row < 0 || row >= 10 || col < 0 || col >= 10) continue; // Skip if position is outside board boundaries
+
+        if (board[row][col] !== null) return false; // Check if neighboring space is occupied
+      }
+    }
   }
+
   return true;
 }
 
