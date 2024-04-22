@@ -1,27 +1,17 @@
-import Player from "../factories/player";
-import Gameboard from "../factories/gameboard";
-import Ship from "../factories/ship";
-import initializeShips from "../helpers/initializeShips";
+const gameLoop = (player1, player2) => {
+  const player1fields = document.querySelectorAll(".player1 .board-field");
+  const player2fields = document.querySelectorAll(".player2 .board-field");
 
-function displayShips(player, gameboard) {
-  for (let i = 0; i < 10; i++) {
-    for (let j = 0; j < 10; j++) {
-      if (gameboard.coordinates[i][j] instanceof Ship) {
-        const field = document.querySelector(
-          `.${player}-table .field${i}${[j]}`,
-        );
-        field.classList.add("ship");
-      }
-    }
-  }
-}
+  player2fields.forEach((field) => {
+    field.addEventListener("click", () => {
+      let x = field.className.slice(-2, -1);
+      let y = field.className.slice(-1);
+      let clickedfield = [x, y];
 
-const gameLoop = () => {
-  const player = new Player();
-  const computer = new Player();
-
-  initializeShips(player);
-  displayShips("Player", player.gameboard);
+      player1.makeMove(clickedfield, player2.gameboard);
+      console.log(player2.gameboard.shots);
+    });
+  });
 };
 
 export default gameLoop;

@@ -1,8 +1,9 @@
 import Gameboard from "../factories/gameboard";
 
 class Player {
-  constructor(name) {
+  constructor(name, isPlayer) {
     this.name = name;
+    this.isPlayer = isPlayer;
     this.gameboard = new Gameboard();
   }
 

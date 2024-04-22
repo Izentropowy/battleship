@@ -12,7 +12,6 @@ function createBoard(name) {
     }
   }
   table.classList.add("table");
-  table.classList.add(`${name}-table`);
   board.classList.add("board");
   headerDiv.classList.add("table-header");
   header.textContent = name;
