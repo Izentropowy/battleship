@@ -1,4 +1,5 @@
 import "./assets/styles.css";
-import initializeWebsite from "./initializer";
+import Game from "./factories/game";
 
-initializeWebsite();
+const game = new Game();
+game.startGame();

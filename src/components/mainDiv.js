@@ -7,7 +7,8 @@ function createBoard(name) {
     for (let j = 0; j < 10; j++) {
       let field = document.createElement("button");
       field.classList.add("board-field");
-      field.classList.add(`field${i}${j}`);
+      field.setAttribute("data-x", i);
+      field.setAttribute("data-y", j);
       table.appendChild(field);
     }
   }
