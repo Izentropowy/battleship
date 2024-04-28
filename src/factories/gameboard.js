@@ -2,10 +2,12 @@ import { elements } from "../components/elements";
 import Ship from "./ship";
 
 class Gameboard {
-  constructor() {
+  constructor(isPlayer) {
     this.coordinates = [];
     this.shots = [];
     this.#createArrays();
+    this.isPlayer = isPlayer;
+    this.fields = isPlayer ? elements.player1Fields : elements.player2Fields;
   }
 
   #createArrays() {
@@ -21,7 +23,11 @@ class Gameboard {
 
   placeShip(ship, coordinates) {
     for (let i = 0; i < ship.length; i++) {
-      this.coordinates[coordinates[0] + i][coordinates[1]] = ship;
+      if (ship.direction === "horizontal") {
+        this.coordinates[coordinates[0]][coordinates[1] + i] = ship;
+      } else {
+        this.coordinates[coordinates[0] + i][coordinates[1]] = ship;
+      }
     }
   }
 
@@ -46,14 +52,21 @@ class Gameboard {
     return JSON.stringify(checker) === JSON.stringify(checker2);
   }
 
-  validateFreeSpace(board, length, x, y) {
+  validateFreeSpace(board, length, direction, x, y) {
     if (x + length > 10 || y + length > 10) return false; // Check if ship exceeds board boundaries
 
     for (let i = 0; i < length; i++) {
       for (let j = -1; j <= 1; j++) {
         for (let k = -1; k <= 1; k++) {
-          const row = x + i + j;
-          const col = y + k;
+          let row;
+          let col;
+          if (direction === "horizontal") {
+            row = x + k;
+            col = y + i + j;
+          } else {
+            row = x + i + j;
+            col = y + k;
+          }
 
           if (row < 0 || row >= 10 || col < 0 || col >= 10) continue; // Skip if position is outside board boundaries
 
@@ -67,16 +80,16 @@ class Gameboard {
 
   initializeShips() {
     const ships = [
-      new Ship(4),
-      new Ship(3),
-      new Ship(3),
-      new Ship(2),
-      new Ship(2),
-      new Ship(2),
-      new Ship(1),
-      new Ship(1),
-      new Ship(1),
-      new Ship(1),
+      new Ship(4, this),
+      new Ship(3, this),
+      new Ship(3, this),
+      new Ship(2, this),
+      new Ship(2, this),
+      new Ship(2, this),
+      new Ship(1, this),
+      new Ship(1, this),
+      new Ship(1, this),
+      new Ship(1, this),
     ];
 
     while (ships.length) {
@@ -85,8 +98,26 @@ class Gameboard {
       do {
         x = Math.floor(Math.random() * 10);
         y = Math.floor(Math.random() * 10);
-      } while (!this.validateFreeSpace(this.coordinates, ship.length, x, y));
+        ship.direction = x % 2 === 0 ? "vertical" : "horizontal";
+      } while (
+        !this.validateFreeSpace(
+          this.coordinates,
+          ship.length,
+          ship.direction,
+          x,
+          y,
+        )
+      );
       this.placeShip(ship, [x, y]);
+      ship.coordinates = [x, y];
+    }
+  }
+
+  getField(x, y) {
+    for (let field of this.fields.childNodes) {
+      if (field.dataset.x == x && field.dataset.y == y) {
+        return field;
+      }
     }
   }
 }

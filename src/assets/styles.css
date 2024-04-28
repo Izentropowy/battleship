@@ -27,7 +27,6 @@ body {
 }
 
 button {
-  cursor: pointer;
   padding: var(--pdg-v) var(--pdg-h);
   background-color: black;
   border: none;
@@ -35,6 +34,7 @@ button {
 
 button:not([disabled]):hover {
   opacity: 0.7;
+  cursor: pointer;
 }
 
 button:not([disabled]):active {
@@ -64,6 +64,8 @@ footer, header {
 
 .table-header {
   margin: var(--mrg);
+  display: flex;
+  justify-content: center;
 }
 
 .table {
@@ -85,13 +87,12 @@ footer, header {
   background-color: white;
 }
 
-.player2 > .table-header {
-  display: flex;
-  justify-content: right;
-}
-
 .ship {
   background-color: rgb(133, 132, 132);
+}
+
+.sunk {
+  background-color: rgba(255, 0, 0, 0.5);
 }
 
 .fa-x {
@@ -103,6 +104,10 @@ footer, header {
   color: #FFD43B;
 }
 
+.fa-trophy {
+  color: #FFD43B;
+  margin-left: var(--mrg)
+}
 
 @media screen and (max-width: 600px) {
   .main-div {
@@ -120,11 +125,6 @@ footer, header {
 
   .table {
     margin: 10px;
-  }
-
-  .player2 > .table-header {
-    display: flex;
-    justify-content: left;
   }
 }
 

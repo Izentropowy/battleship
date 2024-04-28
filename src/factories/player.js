@@ -4,7 +4,7 @@ class Player {
   constructor(name, isPlayer) {
     this.name = name;
     this.isPlayer = isPlayer;
-    this.gameboard = new Gameboard();
+    this.gameboard = new Gameboard(isPlayer);
   }
 
   makeMove(coordinates, enemyBoard) {

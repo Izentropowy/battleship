@@ -1,6 +1,8 @@
 class Ship {
-  constructor(length) {
+  constructor(length, gameboard, coordinates) {
     this.length = length;
+    this.gameboard = gameboard;
+    this.coordinates = coordinates;
     this.hits = 0;
     this.isSunk = false;
   }
