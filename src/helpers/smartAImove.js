@@ -1,3 +1,5 @@
+import Ship from "../factories/ship";
+
 function evaluateDirection(board, i, j) {
   if (j + 1 < 10 && board[i][j + 1] === "hit") {
     return "horizontal";
@@ -62,4 +64,27 @@ function calculateMove(board, i, j) {
   return selectedOption;
 }
 
-export { evaluateDirection, calculateMove };
+function markAdjacent(gameboard, x, y) {
+  if (gameboard.coordinates[x][y].isSunk) {
+    let start = gameboard.coordinates[x][y].coordinates;
+    let length = gameboard.coordinates[x][y].length;
+    let end;
+    if (gameboard.coordinates[x][y].direction === "horizontal") {
+      end = [start[0], start[1] + length - 1];
+    } else {
+      end = [start[0] + length - 1, start[1]];
+    }
+
+    for (let i = start[0] - 1; i <= end[0] + 1; i++) {
+      for (let j = start[1] - 1; j <= end[1] + 1; j++) {
+        if (i >= 0 && i < 10 && j >= 0 && j < 10) {
+          if (gameboard.shots[i][j] === null) {
+            gameboard.shots[i][j] = "adjacent";
+          }
+        }
+      }
+    }
+  }
+}
+
+export { evaluateDirection, calculateMove, markAdjacent };

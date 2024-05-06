@@ -1,7 +1,7 @@
 import Player from "./player";
 import Ship from "./ship";
 import { elements } from "../components/elements";
-import { calculateMove } from "../helpers/smartAImove";
+import { calculateMove, markAdjacent } from "../helpers/smartAImove";
 
 class Game {
   constructor() {
@@ -19,12 +19,12 @@ class Game {
           );
           field.classList.add("ship");
         }
-        if (this.player2.gameboard.coordinates[i][j] instanceof Ship) {
-          const field = document.querySelector(
-            `.player2 [data-x="${i}"][data-y="${j}"]`,
-          );
-          field.classList.add("ship");
-        }
+        // if (this.player2.gameboard.coordinates[i][j] instanceof Ship) {
+        //   const field = document.querySelector(
+        //     `.player2 [data-x="${i}"][data-y="${j}"]`,
+        //   );
+        //   field.classList.add("ship");
+        // }
       }
     }
   }
@@ -127,6 +127,10 @@ class Game {
     let field = this.player1.gameboard.getField(x, y);
     this.renderMove(field, this.player1.gameboard);
     this.checkIfEnd(this.player1.gameboard);
+    if (this.player1.gameboard.coordinates[x][y] instanceof Ship) {
+      markAdjacent(this.player1.gameboard, x, y);
+    }
+
     return [x, y];
   };
 
