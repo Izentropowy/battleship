@@ -72,3 +72,76 @@ test("report if all sunk", () => {
 
   expect(testGameboard.checkIfAllSunk()).toBe(true);
 });
+
+describe("space validating", () => {
+  jest.mock("../components/elements");
+  let testGameboard = new Gameboard();
+
+  testGameboard.coordinates[1][1] = "something";
+  testGameboard.coordinates[1][2] = "something";
+  testGameboard.coordinates[1][3] = "something";
+
+  test("returns true if there is a free space", () => {
+    let x = 5;
+    let y = 5;
+    let shipLength = 3;
+
+    expect(
+      testGameboard.validateFreeSpace(
+        testGameboard.coordinates,
+        shipLength,
+        "horizontal",
+        x,
+        y,
+      ),
+    ).toBe(true);
+  });
+
+  test("returns false if there is not any free space", () => {
+    let x = 1;
+    let y = 2;
+    let shipLength = 3;
+
+    expect(
+      testGameboard.validateFreeSpace(
+        testGameboard.coordinates,
+        shipLength,
+        "horizontal",
+        x,
+        y,
+      ),
+    ).toBe(false);
+  });
+
+  test("returns false if out of boundary", () => {
+    let x = 10;
+    let y = 2;
+    let shipLength = 3;
+
+    expect(
+      testGameboard.validateFreeSpace(
+        testGameboard.coordinates,
+        shipLength,
+        "horizontal",
+        x,
+        y,
+      ),
+    ).toBe(false);
+  });
+
+  test("returns false if adjacent to ship", () => {
+    let x = 0;
+    let y = 1;
+    let shipLength = 3;
+
+    expect(
+      testGameboard.validateFreeSpace(
+        testGameboard.coordinates,
+        shipLength,
+        "horizontal",
+        x,
+        y,
+      ),
+    ).toBe(false);
+  });
+});

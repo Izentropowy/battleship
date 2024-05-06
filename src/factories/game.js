@@ -1,11 +1,13 @@
 import Player from "./player";
 import Ship from "./ship";
 import { elements } from "../components/elements";
+import { calculateMove } from "../helpers/smartAImove";
 
 class Game {
   constructor() {
     this.player1 = new Player("RandomName", true);
     this.player2 = new Player("Computer", false);
+    this.lastAIshot = null;
   }
 
   renderShips() {
@@ -95,14 +97,37 @@ class Game {
 
   makeAIMove = () => {
     let x, y;
-    do {
-      x = Math.floor(Math.random() * 10);
-      y = Math.floor(Math.random() * 10);
-    } while (this.player1.gameboard.shots[x][y] !== null);
+    let moveFound = false;
+
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        if (this.player1.gameboard.shots[i][j] === "hit") {
+          if (!this.player1.gameboard.coordinates[i][j].isSunk) {
+            let move = calculateMove(this.player1.gameboard.shots, i, j);
+            x = move[0];
+            y = move[1];
+            moveFound = true;
+            break; // exit the inner loop
+          }
+        }
+      }
+      if (moveFound) {
+        break; // exit the outer loop
+      }
+    }
+
+    if (x === undefined) {
+      do {
+        x = Math.floor(Math.random() * 10);
+        y = Math.floor(Math.random() * 10);
+      } while (this.player1.gameboard.shots[x][y] !== null);
+    }
+
     this.player2.makeMove([x, y], this.player1.gameboard);
     let field = this.player1.gameboard.getField(x, y);
     this.renderMove(field, this.player1.gameboard);
     this.checkIfEnd(this.player1.gameboard);
+    return [x, y];
   };
 
   addFieldListeners() {

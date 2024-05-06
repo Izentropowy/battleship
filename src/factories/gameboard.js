@@ -1,5 +1,6 @@
-import { elements } from "../components/elements";
+// jest.mock("../components/elements", () => jest.fn());
 import Ship from "./ship";
+import { elements } from "../components/elements";
 
 class Gameboard {
   constructor(isPlayer) {
@@ -7,7 +8,6 @@ class Gameboard {
     this.shots = [];
     this.#createArrays();
     this.isPlayer = isPlayer;
-    this.fields = isPlayer ? elements.player1Fields : elements.player2Fields;
   }
 
   #createArrays() {
@@ -114,7 +114,10 @@ class Gameboard {
   }
 
   getField(x, y) {
-    for (let field of this.fields.childNodes) {
+    let fields = this.isPlayer
+      ? elements.player1Fields
+      : elements.player2Fields;
+    for (let field of fields.childNodes) {
       if (field.dataset.x == x && field.dataset.y == y) {
         return field;
       }

@@ -4,7 +4,6 @@ import createHeader from "./header";
 
 function initializeWebsite() {
   const content = document.getElementById("content");
-
   content.appendChild(createHeader());
   content.appendChild(createMainDiv());
   content.appendChild(createFooter());
