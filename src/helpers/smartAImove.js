@@ -33,6 +33,7 @@ function calculateMove(board, i, j) {
     if (evaluateDirection(board, i, j) === "horizontal") {
       let k = 0;
       while (board[i][j + k] === "hit") {
+        if (j + k + 1 > 9) break;
         k++;
       }
       let options = [
@@ -48,6 +49,7 @@ function calculateMove(board, i, j) {
     if (evaluateDirection(board, i, j) === "vertical") {
       let k = 0;
       while (board[i + k][j] === "hit") {
+        if (i + k + 1 > 9) break;
         k++;
       }
       let options = [
